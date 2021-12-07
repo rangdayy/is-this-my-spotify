@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+
+<html>
+
+<head>
+	<title>Is This My Spotify?</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="stylesheet" href="{{ url_for('static', filename='html5up-stellar/assets/css/main.css') }}" />
+	<noscript>
+		<link rel="stylesheet" href="{{ url_for('static', filename='html5up-stellar/assets/css/noscript.css') }}" />
+	</noscript>
+</head>
+
+<body class="is-preload">
+
+	<!-- Wrapper -->
+	<div id="wrapper">
+
+		<!-- Header -->
+		<header id="header" class="alt">
+			<span class="logo"><img height="70px" src="{{ url_for('static', filename='images/spotify.png') }}" alt="" /></span>
+			<h1>is this my spotify?</h1>
+			<p>Just another bot so you can see how your spotify doing lately<br /> please login with your spotify account to continue</p>
+			<ul class="actions special">
+				<li><a href="{{url_for('spotifyLogin')}}" class="button small">login</a></li>
+			</ul>
+		</header>
+
+		<!-- Footer -->
+		<footer id="footer">
+			<section>
+				<h2>What is this?</h2>
+				<p>Take a look at your recently listened songs and see how you and your spotify doing. Are you sad? are you happy?
+					you dont know?
+					dont worry ill help you find out. Spotify provides a series of different features so i can predict
+					yours.
+				</p>
+
+			</section>
+			<section>
+				<h2>Spotify Features</h2>
+				<dl class="alt">
+					<table>
+						<tr>
+							<td>Acousticness</td>
+							<td>Danceability</td>
+							<td>Energy</td>
+						</tr>
+						<tr>
+							<td>Instrumentalness</td>
+							<td>Liveness</td>
+							<td>Loudness</td>
+						</tr>
+						<tr>
+							<td>Speechiness</td>
+							<td>Valence</td>
+							<td>Tempo</td>
+						</tr>
+					</table>
+				</dl>
+			</section>
+			<p class="copyright">&copy; is this my spotify?</a>.</p>
+		</footer>
+
+	</div>
+
+	<!-- Scripts -->
+	<script src="{{ url_for('static', filename='html5up-stellar/assets/js/jquery.min.js')}}"></script>
+	<script src="{{ url_for('static', filename='html5up-stellar/assets/js/jquery.scrollex.min.js')}}"></script>
+	<script src="{{ url_for('static', filename='html5up-stellar/assets/js/jquery.scrolly.min.js')}}"></script>
+	<script src="{{ url_for('static', filename='html5up-stellar/assets/js/browser.min.js')}}"></script>
+	<script src="{{ url_for('static', filename='html5up-stellar/assets/js/breakpoints.min.js')}}"></script>
+	<script src="{{ url_for('static', filename='html5up-stellar/assets/js/util.js')}}"></script>
+	<script src="{{ url_for('static', filename='html5up-stellar/assets/js/main.js')}}"></script>
+
+</body>
+
+</html>
+
+<script>
+
+
+
+</script>
