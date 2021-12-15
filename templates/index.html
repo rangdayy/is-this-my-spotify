@@ -23,8 +23,17 @@
 		<header id="header" class="alt">
 			<span class="logo"><img height="70px" src="{{ url_for('static', filename='images/spotify.png') }}"
 					alt="" /></span>
-			<h1>is this your spotify?</h1>
-			<p>anyway heres what i found</p>
+			<h1>the results will come out in any minute now</h1>
+			<div class="loader">
+				<span class="stroke"></span>
+				<span class="stroke"></span>
+				<span class="stroke"></span>
+				<span class="stroke"></span>
+				<span class="stroke"></span>
+				<span class="stroke"></span>
+				<span class="stroke"></span>
+			</div>
+
 		</header>
 
 
@@ -32,7 +41,7 @@
 	</div>
 	<!-- Footer -->
 	<footer id="footer">
-			<p class="copyright">&copy; is this my spotify?</a>.</p>
+		<p class="copyright">&copy; is this my spotify?</a>.</p>
 	</footer>
 
 	</div>
@@ -57,6 +66,9 @@
 		$.ajax({
 			type: 'POST',
 			url: "/getTracks",
+			beforeSend: function () {
+
+			},
 			success: function (data) {
 				let contentWrapper = resultBox()
 				let mood = moodResult(data.result)
@@ -68,7 +80,16 @@
 				$('#main').append(top_tracks)
 			},
 			complete: function (data) {
-
+				let element = $('.loader');
+				element.addClass('animate__animated animate__fadeOut');
+				element.on('animationend', () => {
+					$(element).remove()
+					$('#header h1').remove()
+					let h1 = '<h1 class="animate__animated animate__fadeIn">is this your spotify?</h1>'
+					let p = '<p class="animate__animated animate__fadeIn">some caption right here im not sure, still in development</p>'
+					$('#header').append(h1)
+					$('#header').append(p)
+				});
 			},
 			error: function () {
 				alert('Whoops somethings wrong')
@@ -86,7 +107,7 @@
 		let html = '';
 		html += '<section id="mood" class="main">';
 		html += '<div class="spotlight">'
-		html += '<span class="image"><img src="images/pic01.jpg" alt="" /></span>'
+		// html += '<span class="image"><img src="images/pic01.jpg" alt="" /></span>'
 		html += '<div class="content">'
 		html += '<header class="major">';
 		if (data.user_mood == 'Sad') {
@@ -106,12 +127,8 @@
 				html += "<p>deadline? probably. you want to stay focused and keep the stress away. you kept listening to this type of music lately. it's<b>" + parseFloat(data.percentage).toFixed(2) + "%</b>.</p>";
 			}
 		} else if (data.user_mood == 'Energetic') {
-			// if (data.percentage > 50) {
-			// 	html += "<h2>gotta keep the positive vibes going</h2>";
-			// 	html += "<p>. <b>"+parseFloat(data.percentage).toFixed(2)+"%</b> of your top songs you kept listening to are happy songs.</p>";
-			// } else {
-			// 	html += "<h2>you seem </h2>";
-			// }
+			html += "<h2>gotta keep the energy going</h2>";
+			html += "<p>you're being energetic and these songs are helpful to make you stay upbeat and productive. <b>" + parseFloat(data.percentage).toFixed(2) + "%</b> of your top songs you kept listening to are energetic songs.</p>";
 		} else if (data.user_mood == 'Happy') {
 			if (data.percentage > 50) {
 				html += "<h2>geez, you look extremely happy</h2>";
@@ -149,14 +166,19 @@
 		html += '<section id="top_tracks" class="main special">';
 		html += '<header class="major">';
 		html += '<h2>your top songs</h2>';
-		html += '<p>take a look at your top 10 songs </p>';
+		html += '<p>take a look at your top 10 songs // some caption below not sure tho </p>';
 		html += '</header>';
-		html += '<table>'
+		html += '<table>';
+		let i = 0;
 		$.each(data.top_10, function (index, item) {
-			html += '<tr>'
-			html += '<td><span class="solid major style1"><img height="50px" src="' + item.cover + '"alt="" /></span></td>'
-			html += '<td style ="vertical-align: middle;">' + item.artist + ' - ' + item.name + '</td>'
-			html += '</tr>'
+			if (i < 10) {
+				html += '<tr>'
+				html += '<td><span class="solid major style1"><img height="50px" src="' + item.cover + '"alt="" /></span></td>'
+				html += '<td style ="vertical-align: middle;">' + item.artist + ' - ' + item.name + '</td>'
+				html += '<td style ="vertical-align: middle;">' + item.mood + '</td>'
+				html += '</tr>'
+				i++;
+			}
 		});
 		html += '</table>'
 		html += '</section>';

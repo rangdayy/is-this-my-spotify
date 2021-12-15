@@ -19,15 +19,20 @@ def login():
         token_info = spotifyOAuth.get_token()
         return redirect('/')
     except:
-        print('user not logged in')
+        # print('user not logged in')
         return render_template('login.html')
-    
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/') 
+
 @app.route('/')
 def index():
     try:
         token_info = spotifyOAuth.get_token()
     except:
-        print('user not logged in')
+        # print('user not logged in')
         return redirect('/login')
     return render_template('index.html')
     
@@ -43,20 +48,12 @@ def authorize():
 
 @app.route('/getTracks',  methods=['POST','GET'])
 def getTracks():
-    try:
-        token_info = spotifyOAuth.get_token()
-    except:
-        print('user not logged in')
-        return redirect('/login')
-    top_10 = []
+    token_info = spotifyOAuth.get_token()
     top_30 = []
     sp = spotipy.Spotify(auth=token_info['access_token'])
-    top_10_tracks = sp.current_user_top_tracks(limit=10,offset=0,time_range="medium_term")
     top_30_tracks = sp.current_user_top_tracks(limit=30,offset=0,time_range="medium_term")
-    for idx, item in enumerate(top_10_tracks['items']):
-        row = moodChecker.get_songs_features(item['id'],sp)
-        top_10.append(row)
     top_30 = moodChecker.predict_mood(top_30_tracks['items'],sp)
     percentage = moodChecker.getMood(top_30)
-    result = {'top_10': top_10, 'percentage': percentage['total'], 'mood_songs': percentage['songs_of_mood'], 'user_mood': percentage['mood']}
+    result = {'top_10': top_30, 'percentage': percentage['total'], 'mood_songs': percentage['songs_of_mood'], 'user_mood': percentage['mood']}
+    print('done')
     return {'status' :200, 'message':'success', 'result':result}

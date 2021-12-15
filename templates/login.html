@@ -19,11 +19,14 @@
 
 		<!-- Header -->
 		<header id="header" class="alt">
-			<span class="logo"><img height="70px" src="{{ url_for('static', filename='images/spotify.png') }}" alt="" /></span>
+			<span class="logo"><img height="70px" src="{{ url_for('static', filename='images/spotify.png') }}"
+					alt="" /></span>
 			<h1>is this my spotify?</h1>
-			<p>Just another bot so you can see how your spotify doing lately<br /> please login with your spotify account to continue</p>
+			<p>Just another bot so you can see how your spotify doing lately<br /> please login with your spotify
+				account to continue</p>
 			<ul class="actions special">
 				<li><a href="{{url_for('spotifyLogin')}}" class="button small">login</a></li>
+				<li><a href="#footer" class="button small">learn more</a></li>
 			</ul>
 		</header>
 
@@ -31,10 +34,10 @@
 		<footer id="footer">
 			<section>
 				<h2>What is this?</h2>
-				<p>Take a look at your recently listened songs and see how you and your spotify doing. Are you sad? are you happy?
-					you dont know?
-					dont worry ill help you find out. Spotify provides a series of different features so i can predict
-					yours.
+				<p>Take a look at your most recently listened songs and see how you and your spotify doing. Are you sad?
+					are you happy? who knows?
+					i think i can help you with that. Spotify provides a series of different features so i can predict
+					your mood lately.
 				</p>
 
 			</section>
@@ -80,6 +83,22 @@
 
 <script>
 
+	var $a = $('a');
+
+	$a
+		.scrolly({
+			speed: 1000,
+		})
+		.on('click', function () {
+
+			var $this = $(this);
+
+			// External link? Bail.
+			if ($this.attr('href').charAt(0) != '#')
+				return;
+
+		})
+		
 
 
 </script>
