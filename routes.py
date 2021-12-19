@@ -51,9 +51,8 @@ def getTracks():
     token_info = spotifyOAuth.get_token()
     top_30 = []
     sp = spotipy.Spotify(auth=token_info['access_token'])
-    top_30_tracks = sp.current_user_top_tracks(limit=30,offset=0,time_range="medium_term")
+    top_30_tracks = sp.current_user_top_tracks(limit=30,offset=0,time_range="short_term")
     top_30 = moodChecker.predict_mood(top_30_tracks['items'],sp)
     percentage = moodChecker.getMood(top_30)
     result = {'top_10': top_30, 'percentage': percentage['total'], 'mood_songs': percentage['songs_of_mood'], 'user_mood': percentage['mood']}
-    print('done')
     return {'status' :200, 'message':'success', 'result':result}

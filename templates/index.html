@@ -6,6 +6,7 @@
 	<title>Is This My Spotify?</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="icon" href="{{ url_for('static', filename='images/spotify.svg') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='html5up-stellar/assets/css/main.css') }}" />
 	<noscript>
 		<link rel="stylesheet" href="{{ url_for('static', filename='html5up-stellar/assets/css/noscript.css') }}" />
@@ -80,15 +81,18 @@
 				$('#main').append(top_tracks)
 			},
 			complete: function (data) {
+				console.log(data)
 				let element = $('.loader');
 				element.addClass('animate__animated animate__fadeOut');
 				element.on('animationend', () => {
 					$(element).remove()
 					$('#header h1').remove()
-					let h1 = '<h1 class="animate__animated animate__fadeIn">is this your spotify?</h1>'
-					let p = '<p class="animate__animated animate__fadeIn">some caption right here im not sure, still in development</p>'
-					$('#header').append(h1)
-					$('#header').append(p)
+					if (data.status == 200) {
+						let h1 = '<h1 class="animate__animated animate__fadeIn">is this your spotify?</h1>'
+						let p = "<p class='animate__animated animate__fadeIn'>i know this is not really accurate, i'm not SPOTIFY WRAPPED but at least i'm being realistic. i mean, do you really believe that you're the main character when you and everyone else got the same music taste? not to mention the aura thing LMAO.</p>"
+						$('#header').append(h1)
+						$('#header').append(p)
+					}
 				});
 			},
 			error: function () {
@@ -111,15 +115,15 @@
 		html += '<div class="content">'
 		html += '<header class="major">';
 		if (data.user_mood == 'Sad') {
-			if (data.percentage > 50) {
+			if (data.percentage > 70) {
 				html += '<h2> aww boo hoo, who hurt you?</h2>';
-				html += '<p>are you really spending your time on spotify just to cry? i found <b>' + parseFloat(data.percentage).toFixed(2) + '%</b> of your top songs you kept listening to, those literally sad songs smh. just go outside hangout with your friends and i know about covid so please wear a mask</p>';
+				html += '<p>are you really spending your time on spotify just to cry? i found <b>' + parseFloat(data.percentage).toFixed(2) + '%</b> of songs you kept listening to, those literally sad songs smh. just go outside hangout with your friends and i know about covid so please wear a mask</p>';
 			} else {
 				html += '<h2>you seem pretty sad lately :(</h2>';
-				html += "<p>so, <b>" + parseFloat(data.percentage).toFixed(2) + "%</b> of your top songs you kept listening to are sad songs i think. i mean, it's okay to be emotional sometimes so let it out</p>";
+				html += "<p>so, <b>" + parseFloat(data.percentage).toFixed(2) + "%</b> of songs you kept listening to are sad songs i think. i mean, it's okay to be emotional sometimes so let it out</p>";
 			}
 		} else if (data.user_mood == 'Calm') {
-			if (data.percentage > 50) {
+			if (data.percentage > 70) {
 				html += "<h2>so you're chillin'</h2>";
 				html += "<p>laying on your bed, LED lights on. you're here for the chill vibes, the beats, calmness and don't forget to do some dance. you kept listening to this type of music lately. i mean it's<b>" + parseFloat(data.percentage).toFixed(2) + "%</b>.</p>";
 			} else {
@@ -128,15 +132,15 @@
 			}
 		} else if (data.user_mood == 'Energetic') {
 			html += "<h2>gotta keep the energy going</h2>";
-			html += "<p>you're being energetic and these songs are helpful to make you stay upbeat and productive. <b>" + parseFloat(data.percentage).toFixed(2) + "%</b> of your top songs you kept listening to are energetic songs.</p>";
+			html += "<p>you're being energetic and these songs are helpful to make you stay upbeat and productive. <b>" + parseFloat(data.percentage).toFixed(2) + "%</b> of songs you kept listening to are energetic songs.</p>";
 		} else if (data.user_mood == 'Happy') {
-			if (data.percentage > 50) {
+			if (data.percentage > 70) {
 				html += "<h2>geez, you look extremely happy</h2>";
-				html += "<p>looks like someone got too much self-confidence, you just happy all the time. go get some drama please, it's good for character development. <b>" + parseFloat(data.percentage).toFixed(2) + "%</b> of your top songs you kept listening to are happy songs.</p>";
+				html += "<p>looks like someone got too much self-confidence, you just happy all the time. go get some drama please, it's good for character development. <b>" + parseFloat(data.percentage).toFixed(2) + "%</b> of songs you kept listening to are happy songs.</p>";
 
 			} else {
 				html += "<h2>you just a happy person </h2>";
-				html += "<p>you look happy that's it. you're normal. you like it basic. i found <b>" + parseFloat(data.percentage).toFixed(2) + "%</b> of your top songs you kept listening to are happy songs.</p>";
+				html += "<p>you look happy that's it. you're normal. you like it basic. i found <b>" + parseFloat(data.percentage).toFixed(2) + "%</b> of songs you kept listening to are happy songs.</p>";
 			}
 		}
 		html += '</div>';
@@ -150,11 +154,15 @@
 		html += '<section id="mood_songs" class="main special">'
 		html += "<header class='major'><h2>these are the songs i'm talking about </h2></header>";
 		html += '<ul class="features" >';
+		let i = 0
 		$.each(data.mood_songs, function (index, item) {
-			html += '<li>'
-			html += '<span class="solid major style1"><img height="200px" src="' + item.cover + '"alt="" /></span>'
-			html += '<h3>' + item.artist + ' - ' + item.name + '</h3>';
-			html += '</li>';
+			if (i < 6) {
+				html += '<li>'
+				html += '<span class="solid major style1"><img height="200px" src="' + item.cover + '"alt="" /></span>'
+				html += '<h3>' + item.artist + ' - ' + item.name + '</h3>';
+				html += '</li>';
+				i++;
+			}
 		});
 		html += '</ul>';
 		html += '</section>'
@@ -165,8 +173,8 @@
 		let html = '';
 		html += '<section id="top_tracks" class="main special">';
 		html += '<header class="major">';
-		html += '<h2>your top songs</h2>';
-		html += '<p>take a look at your top 10 songs // some caption below not sure tho </p>';
+		html += '<h2>your top 10 songs</h2>';
+		// html += '<p>take a look at your top 10 songs // some caption below not sure tho </p>';
 		html += '</header>';
 		html += '<table>';
 		let i = 0;

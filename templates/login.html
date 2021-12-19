@@ -6,10 +6,13 @@
 	<title>Is This My Spotify?</title>
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+	<link rel="icon" href="{{ url_for('static', filename='images/spotify.svg') }}">
 	<link rel="stylesheet" href="{{ url_for('static', filename='html5up-stellar/assets/css/main.css') }}" />
 	<noscript>
 		<link rel="stylesheet" href="{{ url_for('static', filename='html5up-stellar/assets/css/noscript.css') }}" />
 	</noscript>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
 </head>
 
 <body class="is-preload">
@@ -33,8 +36,8 @@
 		<!-- Footer -->
 		<footer id="footer">
 			<section>
-				<h2>What is this?</h2>
-				<p>Take a look at your most recently listened songs and see how you and your spotify doing. Are you sad?
+				<h2 class="animate__animated animate__fadeIn">What is this?</h2>
+				<p class="animate__animated animate__fadeIn">Take a look at your most recently listened songs and see how you and your spotify doing. Are you sad?
 					are you happy? who knows?
 					i think i can help you with that. Spotify provides a series of different features so i can predict
 					your mood lately.
@@ -42,9 +45,9 @@
 
 			</section>
 			<section>
-				<h2>Spotify Features</h2>
+				<h2 class="animate__animated animate__fadeIn">Spotify Features</h2>
 				<dl class="alt">
-					<table>
+					<table class="animate__animated animate__fadeIn">
 						<tr>
 							<td>Acousticness</td>
 							<td>Danceability</td>

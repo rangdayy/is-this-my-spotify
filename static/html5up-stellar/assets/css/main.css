@@ -66,6 +66,7 @@
 html, body {
 	min-height: 100%;
 }
+
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
 pre, a, abbr, acronym, address, big, cite,
@@ -151,7 +152,7 @@ body {
 	}
 
 	html, body {
-		min-width: 320px;
+		min-width: 100%;
 	}
 
 }
@@ -194,8 +195,13 @@ body, input, select, textarea {
 	line-height: 1.65;
 }
 
+
 @media screen and (max-width: 1680px) {
 
+	.loader {
+		width: 9%;
+		margin: auto;
+	}
 	body, input, select, textarea {
 		font-size: 14pt;
 	}
@@ -204,6 +210,10 @@ body, input, select, textarea {
 
 @media screen and (max-width: 1280px) {
 
+	.loader {
+		width: 10%;
+		margin: auto;
+	}
 
 	body, input, select, textarea {
 		font-size: 12pt;
@@ -211,7 +221,44 @@ body, input, select, textarea {
 
 }
 
+
+@media screen and (max-width: 800px) {
+
+	.loader {
+		width: 15%;
+		margin: auto;
+	}
+	body, input, select, textarea {
+		font-size: 12pt;
+	}
+
+}
+@media screen and (max-width: 736px) {
+	.loader {
+		width: 22%;
+		margin: auto;
+	}
+	body, input, select, textarea {
+		font-size: 12pt;
+	}
+}
+@media screen and (max-width: 480px) {
+
+	.loader {
+		width: 29%;
+		margin: auto;
+	}
+	body, input, select, textarea {
+		font-size: 11pt;
+	}
+
+}
+
 @media screen and (max-width: 360px) {
+	.loader {
+		width: 31%;
+		margin: auto;
+	}
 
 	body, input, select, textarea {
 		font-size: 11pt;
@@ -639,10 +686,6 @@ hr {
 }
 
 @media screen and (max-width: 1680px) {
-	.loader {
-		width: 9%;
-		margin: auto;
-	}
 
 	.row {
 		display: flex;
@@ -888,10 +931,7 @@ hr {
 }
 
 @media screen and (max-width: 1280px) {
-	.loader {
-		width: 10%;
-		margin: auto;
-	}
+
 
 	.row {
 		display: flex;
@@ -1382,10 +1422,7 @@ hr {
 }
 
 @media screen and (max-width: 736px) {
-	.loader {
-		width: 22%;
-		margin: auto;
-	}
+
 
 	.row {
 		display: flex;

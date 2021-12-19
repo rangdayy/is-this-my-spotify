@@ -31,17 +31,23 @@ target = pd.DataFrame({'mood': df['mood'].tolist(
 def predict_mood(songs, sp):
     # Join the model and the scaler in a Pipeline
     pip = Pipeline([('minmaxscaler', MinMaxScaler()), ('keras', KerasClassifier(build_fn=base_model, epochs=300,
-                                                                                batch_size=200, verbose=0))])
+                                                                                batch_size=64, verbose=0))])
     # Fit the Pipeline
     pip.fit(X2, encoded_y)
     # Obtain the features of the song
     res = {}
+    song_ids = []
     for idx, item in enumerate(songs):
-        preds = get_songs_features(item['id'], sp)
-        track = []
+        song_ids.append(item['id'])
+    meta = sp.tracks(song_ids)
+    tracks = sp.audio_features(song_ids)
+    for idx, item in enumerate(meta['tracks']):
+        # print(item)
+        # print(tracks[idx])
+        preds = get_songs_features(item,tracks[idx])
+        track= []
         track.extend((list(preds.values()), list(preds.keys())))
         metadata = tuple(track)
-        # Pre-process the features to input the Model
         preds_features = np.array(metadata[0][7:-2]).reshape(-1, 1).T
         # Predict the features of the song
         results = pip.predict(preds_features)
@@ -64,10 +70,7 @@ def base_model():
                   metrics=['accuracy'])
     return model
 
-
-def get_songs_features(ids, sp):
-    meta = sp.track(ids)
-    features = sp.audio_features(ids)
+def get_songs_features(meta, features):
     # meta
     metadata = {}
     metadata['name'] = meta['name']
@@ -79,25 +82,22 @@ def get_songs_features(ids, sp):
     metadata['popularity'] = meta['popularity']
     metadata['length'] = meta['duration_ms']
     # features
-    metadata['danceability'] = features[0]['danceability']
-    metadata['acousticness'] = features[0]['acousticness']
-    metadata['energy'] = features[0]['energy']
-    metadata['instrumentalness'] = features[0]['instrumentalness']
-    metadata['liveness'] = features[0]['liveness']
-    metadata['valence'] = features[0]['valence']
-    metadata['loudness'] = features[0]['loudness']
-    metadata['speechiness'] = features[0]['speechiness']
-    metadata['tempo'] = features[0]['tempo']
-    metadata['key'] = features[0]['key']
-    metadata['time_signature'] = features[0]['time_signature']
+    metadata['danceability'] = features['danceability']
+    metadata['acousticness'] = features['acousticness']
+    metadata['energy'] = features['energy']
+    metadata['instrumentalness'] = features['instrumentalness']
+    metadata['liveness'] = features['liveness']
+    metadata['valence'] = features['valence']
+    metadata['loudness'] = features['loudness']
+    metadata['speechiness'] = features['speechiness']
+    metadata['tempo'] = features['tempo']
+    metadata['key'] = features['key']
+    metadata['time_signature'] = features['time_signature']
     return metadata
 
 
 def getMood(tracks_data):
     songs_of_mood = []
-    top_10 = []
-    i = 0
-    j = 0
     percentage = {'Sad': 0, 'Calm': 0, 'Energetic': 0, 'Happy': 0}
     for item in tracks_data:
         if tracks_data[item]['mood'] == 'Sad':
@@ -110,8 +110,7 @@ def getMood(tracks_data):
             percentage['Happy'] += 1
     most_mood = max(percentage, key=percentage.get)
     total = percentage[most_mood]/30 * 100
-    while i < 6:
-        if tracks_data[i]['mood'] == most_mood:
-            songs_of_mood.append(tracks_data[i])
-            i += 1
+    for item in tracks_data:
+        if tracks_data[item]['mood'] == most_mood:
+            songs_of_mood.append(tracks_data[item])
     return {'songs_of_mood': songs_of_mood, 'total': total, 'mood': most_mood}
